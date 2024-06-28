@@ -1,0 +1,54 @@
+package com.smarthome.platform.upc.analytics.domain.model.aggregates;
+
+
+import com.smarthome.platform.upc.analytics.domain.model.commands.CreatePerformanceIndicatorCommand;
+import com.smarthome.platform.upc.inventory.domain.model.aggregates.Device;
+import com.smarthome.platform.upc.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import com.smarthome.platform.upc.shared.domain.model.valueobjects.DeviceType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+
+import java.util.List;
+
+@Entity
+@Getter
+public class PerformanceIndicator extends AuditableAbstractAggregateRoot<PerformanceIndicator> {
+    @NotNull(message = "Name is required")
+    @Max(value = 40, message = "Name must be less than or equal to 40 characters")
+    private String name;
+
+    @NotNull(message = "Description is required")
+    @Max(value = 200, message = "Description must be less than or equal to 200 characters")
+    private String description;
+
+    @NotNull(message = "Min value is required")
+    private Double minValue;
+
+    @NotNull(message = "Max value is required")
+    private Double maxValue;
+
+    @NotNull(message = "Device type is required")
+    @Enumerated(EnumType.STRING)
+    private DeviceType deviceType;
+
+    @OneToMany(mappedBy = "performanceIndicator")
+    private List<Device> devices;
+
+    public PerformanceIndicator() {}
+
+    public PerformanceIndicator(CreatePerformanceIndicatorCommand command)
+    {
+        this.name = command.name();
+        this.description = command.description();
+        this.minValue = command.minValue();
+        this.maxValue = command.maxValue();
+        this.deviceType = DeviceType.valueOf(command.deviceType());
+    }
+
+
+}
