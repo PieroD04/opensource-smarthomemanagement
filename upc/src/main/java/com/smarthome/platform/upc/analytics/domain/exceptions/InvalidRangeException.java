@@ -1,7 +1,7 @@
-package com.smarthome.platform.upc.inventory.domain.exceptions;
+package com.smarthome.platform.upc.analytics.domain.exceptions;
 
 public class InvalidRangeException extends RuntimeException{
-    public InvalidRangeException(Long minValue, Long maxValue) {
+    public InvalidRangeException(Double minValue, Double maxValue) {
         super("maxValue " + maxValue + " should be greater than minValue " + minValue);
     }
 }

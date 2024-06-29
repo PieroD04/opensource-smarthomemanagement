@@ -16,20 +16,23 @@ import lombok.Getter;
 import java.util.List;
 
 @Entity
-@Getter
 public class PerformanceIndicator extends AuditableAbstractAggregateRoot<PerformanceIndicator> {
     @NotNull(message = "Name is required")
     @Max(value = 40, message = "Name must be less than or equal to 40 characters")
+    @Getter
     private String name;
 
     // Description is optional
     @Max(value = 200, message = "Description must be less than or equal to 200 characters")
+    @Getter
     private String description;
 
     @NotNull(message = "Min value is required")
+    @Getter
     private Double minValue;
 
     @NotNull(message = "Max value is required")
+    @Getter
     private Double maxValue;
 
     @NotNull(message = "Device type is required")
@@ -37,6 +40,7 @@ public class PerformanceIndicator extends AuditableAbstractAggregateRoot<Perform
     private DeviceType deviceType;
 
     @OneToMany(mappedBy = "performanceIndicator")
+    @Getter
     private List<Device> devices;
 
     public PerformanceIndicator() {}
@@ -48,6 +52,10 @@ public class PerformanceIndicator extends AuditableAbstractAggregateRoot<Perform
         this.minValue = command.minValue();
         this.maxValue = command.maxValue();
         this.deviceType = DeviceType.valueOf(command.deviceType());
+    }
+
+    public String getDeviceType() {
+        return deviceType.name();
     }
 
 
