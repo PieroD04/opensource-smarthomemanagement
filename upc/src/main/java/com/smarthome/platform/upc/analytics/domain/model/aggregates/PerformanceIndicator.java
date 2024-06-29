@@ -22,7 +22,7 @@ public class PerformanceIndicator extends AuditableAbstractAggregateRoot<Perform
     @Max(value = 40, message = "Name must be less than or equal to 40 characters")
     private String name;
 
-    @NotNull(message = "Description is required")
+    // Description is optional
     @Max(value = 200, message = "Description must be less than or equal to 200 characters")
     private String description;
 

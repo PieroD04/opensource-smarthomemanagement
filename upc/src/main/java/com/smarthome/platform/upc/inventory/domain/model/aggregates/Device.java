@@ -4,10 +4,7 @@ import com.smarthome.platform.upc.inventory.domain.model.commands.CreateDeviceCo
 import com.smarthome.platform.upc.inventory.domain.model.valueobjects.Status;
 import com.smarthome.platform.upc.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import com.smarthome.platform.upc.shared.domain.model.valueobjects.DeviceType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +33,7 @@ public class Device extends AuditableAbstractAggregateRoot<Device> {
     private Date installationDate;
 
     @NotNull(message = "Status is required")
-    @Enumerated(EnumType.STRING)
+    @Embedded
     private Status status;
 
     public Device() {}
@@ -46,7 +43,7 @@ public class Device extends AuditableAbstractAggregateRoot<Device> {
         this.model = command.model();
         this.deviceType = DeviceType.valueOf(command.deviceType());
         this.installationDate = command.installationDate();
-        this.status = Status.valueOf(command.status());
+        this.status = new Status(command.status());
     }
 
 }
