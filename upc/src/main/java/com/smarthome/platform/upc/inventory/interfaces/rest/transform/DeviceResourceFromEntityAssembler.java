@@ -11,7 +11,8 @@ public class DeviceResourceFromEntityAssembler {
                 entity.getModel(),
                 entity.getDeviceType(),
                 entity.getInstallationDate(),
-                entity.getStatus()
+                entity.getStatus(),
+                entity.getPerformanceIndicator().getId()
         );
     }
 }

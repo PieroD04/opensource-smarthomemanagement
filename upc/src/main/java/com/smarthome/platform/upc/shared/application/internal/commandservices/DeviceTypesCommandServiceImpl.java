@@ -5,9 +5,11 @@ import com.smarthome.platform.upc.shared.domain.model.entities.DeviceTypes;
 import com.smarthome.platform.upc.shared.domain.model.valueobjects.DeviceType;
 import com.smarthome.platform.upc.shared.domain.services.DeviceTypesCommandService;
 import com.smarthome.platform.upc.shared.infrastructure.persistence.jpa.repositories.DeviceTypesRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@Service
 public class DeviceTypesCommandServiceImpl implements DeviceTypesCommandService {
     private final DeviceTypesRepository deviceTypesRepository;
 

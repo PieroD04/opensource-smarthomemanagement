@@ -9,6 +9,7 @@ import com.smarthome.platform.upc.analytics.interfaces.rest.transform.CreatePerf
 import com.smarthome.platform.upc.analytics.interfaces.rest.transform.PerformanceIndicatorResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,19 +21,27 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping(value="/api/v1/performance-indicators", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Performance Indicators", description = "Performance Indicator Management Endpoints")
-public class PerformanceIndicatorController {
+public class PerformanceIndicatorsController {
     private final PerformanceIndicatorCommandService performanceIndicatorCommandService;
     private final PerformanceIndicatorQueryService performanceIndicatorQueryService;
 
-    public PerformanceIndicatorController(PerformanceIndicatorCommandService performanceIndicatorCommandService, PerformanceIndicatorQueryService performanceIndicatorQueryService) {
+    public PerformanceIndicatorsController(PerformanceIndicatorCommandService performanceIndicatorCommandService, PerformanceIndicatorQueryService performanceIndicatorQueryService) {
         this.performanceIndicatorCommandService = performanceIndicatorCommandService;
         this.performanceIndicatorQueryService = performanceIndicatorQueryService;
     }
 
     @PostMapping
-    public ResponseEntity<PerformanceIndicatorResource> createPerformanceIndicator(@RequestBody CreatePerformanceIndicatorResource createPerformanceIndicatorResource){
+    public ResponseEntity<?> createPerformanceIndicator(@RequestBody CreatePerformanceIndicatorResource createPerformanceIndicatorResource){
         var createPerformanceIndicatorCommand = CreatePerformanceIndicatorCommandFromResourceAssembler.toCommandFromResource(createPerformanceIndicatorResource);
-        var performanceIndicatorId = performanceIndicatorCommandService.handle(createPerformanceIndicatorCommand);
+        Long performanceIndicatorId;
+        try {
+            performanceIndicatorId = performanceIndicatorCommandService.handle(createPerformanceIndicatorCommand);
+        } catch (Exception e){
+            return ResponseEntity
+                    .badRequest()
+                    .contentType(MediaType.TEXT_PLAIN)
+                    .body(e.getMessage());
+        }
         if(performanceIndicatorId == 0L){
             return ResponseEntity.badRequest().build();
         }

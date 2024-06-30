@@ -10,7 +10,8 @@ public class CreateDeviceCommandFromResourceAssembler {
                 resource.model(),
                 resource.deviceType(),
                 resource.installationDate(),
-                resource.status()
+                resource.status(),
+                resource.performanceIndicatorId()
         );
     }
 }

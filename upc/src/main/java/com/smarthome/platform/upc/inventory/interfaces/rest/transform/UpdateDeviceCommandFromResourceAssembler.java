@@ -11,7 +11,8 @@ public class UpdateDeviceCommandFromResourceAssembler {
                 resource.model(),
                 resource.deviceType(),
                 resource.installationDate(),
-                resource.status()
+                resource.status(),
+                resource.performanceIndicatorId()
         );
     }
 }

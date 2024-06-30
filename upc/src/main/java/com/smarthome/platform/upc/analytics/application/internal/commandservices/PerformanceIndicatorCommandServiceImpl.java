@@ -25,7 +25,7 @@ public class PerformanceIndicatorCommandServiceImpl implements PerformanceIndica
             throw new SameNameAndDeviceTypeException(command.name(), command.deviceType());
         }
 
-        if (command.maxValue() < command.minValue()) {
+        if (command.maxValue() <= command.minValue()) {
             throw new InvalidRangeException(command.minValue(), command.maxValue());
         }
 

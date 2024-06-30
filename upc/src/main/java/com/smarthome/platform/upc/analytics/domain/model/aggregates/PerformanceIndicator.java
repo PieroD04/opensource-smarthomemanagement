@@ -11,19 +11,21 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class PerformanceIndicator extends AuditableAbstractAggregateRoot<PerformanceIndicator> {
     @NotNull(message = "Name is required")
-    @Max(value = 40, message = "Name must be less than or equal to 40 characters")
+    @Size(max = 40, message = "Name must be less than or equal to 40 characters")
     @Getter
     private String name;
 
     // Description is optional
-    @Max(value = 200, message = "Description must be less than or equal to 200 characters")
+    @Size(max = 200, message = "Description must be less than or equal to 200 characters")
     @Getter
     private String description;
 
